@@ -13,10 +13,11 @@ const env_vars = get_env_vars(ENV_VARS);
 async function main() {
   const io = new Server(http, {
     cors: {
-      origin: "http://localhost:3000",
+      origin: env_vars.AUTOLOG_URL,
       methods: ["GET", "POST"],
     },
   });
+
   const { client, mongoCollection } = await connect_to_db(env_vars);
 
   const changeStream = mongoCollection.watch(pipeline, options);
@@ -27,7 +28,9 @@ async function main() {
     changeStream.on("change", updateOnChange);
   });
 
-  http.listen(8080);
+  http.listen(8080, () => {
+    console.log("Server bound to port 8080");
+  });
 }
 
 main().catch(console.error);

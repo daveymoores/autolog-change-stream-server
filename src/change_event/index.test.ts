@@ -1,6 +1,6 @@
 import * as socketIo from "socket.io";
 
-import { TimesheetResponseProps } from "../../types/Timesheet.types";
+import { TimesheetResponseProps } from "Timesheet";
 import change_event, { ChangeEventNext } from "./index";
 
 describe("mongodb change event", () => {

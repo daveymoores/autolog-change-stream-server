@@ -5,7 +5,9 @@ export const ENV_VARS: { [key: string]: string } = {
   AUTOLOG_URL: "AUTOLOG_URL",
 } as const;
 
-const get_env_vars = (connection_vars: { [key: string]: string }) => {
+const get_env_vars = (connection_vars: {
+  [key: string]: string;
+}): { [key: string]: string } => {
   Object.entries(connection_vars).forEach(([key]) => {
     if (!process.env[key]) {
       throw new Error(`${key} is not set`);
