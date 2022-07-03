@@ -8,7 +8,7 @@ export interface ChangeEventNext {
   updateDescription: { updatedFields: TimesheetResponseProps };
 }
 
-const change_event = (io: socketIo.Server) => (next: ChangeEventNext) => {
+const change_event = (server: socketIo.Server) => (next: ChangeEventNext) => {
   // at the very least there should be document ID
   if (!next.documentKey) {
     throw new Error("No data returned");
@@ -16,7 +16,6 @@ const change_event = (io: socketIo.Server) => (next: ChangeEventNext) => {
 
   const modified_timesheet = next?.fullDocument?.random_path;
   const updateFields = next?.updateDescription?.updatedFields;
-
   // if fields haven't been updated then prevent this from firing
   if (!updateFields) {
     return;
@@ -38,7 +37,7 @@ const change_event = (io: socketIo.Server) => (next: ChangeEventNext) => {
     error: false,
   };
 
-  io.to(modified_timesheet).emit("signature_update", payload);
+  server.to(modified_timesheet).emit("signature_update", payload);
 };
 
 export default change_event;
